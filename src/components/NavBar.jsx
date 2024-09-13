@@ -56,6 +56,7 @@ const Wrapper = styled.div`
 
     p {
       padding: 5px;
+      font-size: 17px;
       &:hover {
         background: #e0dfdc;
         border-radius: 10px;
@@ -128,6 +129,12 @@ const Wrapper = styled.div`
 const Hamburger = styled.div`
   background-color: #eaddca;
   padding: 10px;
+
+  &:hover {
+    background-color: white;
+    border-radius: 10px;
+    padding: 5px;
+  }
 
   .dropP {
     &:hover {

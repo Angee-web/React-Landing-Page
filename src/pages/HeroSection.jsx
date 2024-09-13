@@ -4,22 +4,24 @@ const Wrapper = styled.div`
   background-color: #eaddca;
   display: flex;
   gap: 40px;
+  height: 100vh;
   align-items: center;
   justify-content: center;
   padding: 20px;
   box-sizing: border-box;
+  text-align: center; /* Center text content */
 
   /* Media queries for responsiveness */
   @media (max-width: 768px) {
     flex-direction: column;
     height: auto;
     padding: 20px;
-    text-align: center;
   }
 
   .text {
     display: flex;
     flex-direction: column;
+    align-items: center; /* Center text items horizontally */
     max-width: 30%;
     overflow-wrap: break-word;
 
@@ -60,7 +62,9 @@ const Wrapper = styled.div`
   }
 
   .image {
-    max-width: 30%;
+    max-width: 50%;
+    display: flex;
+    justify-content: center; /* Center image horizontally */
     img {
       width: 70%; /* Responsive width */
       height: auto;
@@ -71,7 +75,7 @@ const Wrapper = styled.div`
         height: auto;
       }
     }
-      @media (max-width: 768px) {
+    @media (max-width: 768px) {
       max-width: 100%;
     }
   }
