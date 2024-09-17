@@ -9,7 +9,6 @@ const Wrapper = styled.div`
   justify-content: center;
   padding: 20px;
   box-sizing: border-box;
-  text-align: center; /* Center text content */
 
   /* Media queries for responsiveness */
   @media (max-width: 768px) {
@@ -21,13 +20,13 @@ const Wrapper = styled.div`
   .text {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center text items horizontally */
+    gap: 1rem;
     max-width: 30%;
     overflow-wrap: break-word;
 
     h1 {
       margin: 0;
-      font-size: 2.25rem; /* Adjusted font size for responsiveness */
+      font-size: 2.5rem; 
     }
 
     h3 {
@@ -42,13 +41,12 @@ const Wrapper = styled.div`
 
     .vol {
       border: 2px solid #201600;
-      padding: 8px 16px;
-      width: auto;
-      border-radius: 18px;
+      padding: 12px 24px;
+      width: fit-content;
+      border-radius: 24px;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       cursor: pointer;
       background-color: #ffff00;
-      margin: 0 auto;
 
       &:hover {
         transform: translateY(-10px);
@@ -57,7 +55,7 @@ const Wrapper = styled.div`
     }
 
     @media (max-width: 768px) {
-      max-width: 50%;
+      max-width: 80%;
     }
   }
 

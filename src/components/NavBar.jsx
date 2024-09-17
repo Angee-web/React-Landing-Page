@@ -239,8 +239,9 @@ const NavBar = () => {
       </Wrapper>
 
       {/* Dropdown menu */}
-      <Hamburger>
-        {menuOpen && (
+
+      {menuOpen && (
+        <Hamburger>
           <div className="dropdown">
             <p className="dropP">Solutions</p>
             <p className="dropP">Resources</p>
@@ -272,8 +273,8 @@ const NavBar = () => {
               </div>
             </div>
           </div>
-        )}
-      </Hamburger>
+        </Hamburger>
+      )}
     </>
   );
 };

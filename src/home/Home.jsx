@@ -4,7 +4,9 @@ import NavBar from "../components/NavBar";
 import HeroSection from "../pages/HeroSection";
 import SubHero from "../pages/SubHero";
 import styled from "styled-components";
-import Review from "../pages/Review";
+import Slide from "../pages/Slide";
+// import Review from "../pages/Review";
+
 
 const Wrapper = styled.div`
   .navbar {
@@ -25,7 +27,8 @@ const Home = () => {
       </div>
       <HeroSection />
       <SubHero />
-      <Review />
+      <Slide />
+      {/* <Review /> */}
     </Wrapper>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { reviews } from "../utils/reviews";
 
@@ -9,13 +9,8 @@ const Wrapper = styled.div`
   padding: 20px;
   position: relative;
   height: 100vh;
-  padding: 40px;
   text-align: center;
   font-size: 20px;
-
-  @media (max-width: 768px) {
-    overflow: hidden;
-  }
 
   .arrows {
     position: absolute;
@@ -31,6 +26,8 @@ const Wrapper = styled.div`
       padding: 10px;
       font-size: 24px;
       cursor: pointer;
+      color: lightblue;
+      font-size: 50px;
 
       &:focus {
         outline: none;
@@ -39,31 +36,31 @@ const Wrapper = styled.div`
   }
 
   .card-container {
-    width: 100%;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-
-    @media (max-width: 768px) {
-      transform: ${({ currentSlide }) => `translateX(-${currentSlide * 100}%)`};
-    }
+    transition: transform 0.5s ease;
+    overflow: hidden;
+    width: 100%;
 
     .card {
       background: white;
-      border: 1px solid ;
+      border: 1px solid;
       padding: 20px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       text-align: center;
-      max-width: 300px;
+      margin: 10px;
+      width: 100%; /* Default for small screens */
 
       @media (min-width: 768px) {
-        width: 300px;
+        width: 45%; /* 2 cards for medium screens */
       }
 
-      .content{
-      text-align: left;
-      line-height: 0.5;
+      @media (min-width: 1024px) {
+        width: 22%; /* 4 cards for large screens */
+      }
+
+      .content {
+        text-align: left;
+        line-height: 1.5;
       }
     }
   }
@@ -71,11 +68,7 @@ const Wrapper = styled.div`
   .dots {
     display: flex;
     justify-content: center;
-    margin-top: 40px;
-
-    @media (min-width: 768px) {
-      display: none;
-    }
+    margin-top: 20px;
 
     .dot {
       width: 10px;
@@ -90,15 +83,40 @@ const Wrapper = styled.div`
 
 const Review = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [cardsPerSlide, setCardsPerSlide] = useState(1);
+
+  // Update number of cards based on screen size
+  useEffect(() => {
+    const updateCardsPerSlide = () => {
+      if (window.innerWidth >= 1024) {
+        setCardsPerSlide(4); // Large screen: 4 cards
+      } else if (window.innerWidth >= 768) {
+        setCardsPerSlide(2); // Medium screen: 2 cards
+      } else {
+        setCardsPerSlide(1); // Small screen: 1 card
+      }
+    };
+
+    window.addEventListener("resize", updateCardsPerSlide);
+    updateCardsPerSlide();
+
+    return () => window.removeEventListener("resize", updateCardsPerSlide);
+  }, []);
+
+  const totalSlides = Math.ceil(reviews.length / cardsPerSlide);
 
   const nextSlide = () => {
-    setCurrentSlide((prevSlide) => (prevSlide + 1) % reviews.length);
+    setCurrentSlide((prevSlide) => (prevSlide + 1) % totalSlides);
   };
 
   const prevSlide = () => {
     setCurrentSlide((prevSlide) =>
-      prevSlide === 0 ? reviews.length - 1 : prevSlide - 1
+      prevSlide === 0 ? totalSlides - 1 : prevSlide - 1
     );
+  };
+
+  const getTransformStyle = () => {
+    return `translateX(-${currentSlide * (100 / cardsPerSlide)}%)`;
   };
 
   return (
@@ -108,26 +126,30 @@ const Review = () => {
         <button onClick={nextSlide}>{">"}</button>
       </div>
 
-      <div className="dots-and-card">
-        <div className="card-container" currentSlide={currentSlide}>
-          {reviews.map((review, index) => (
-            <div className="card" key={index}>
-              <p>{review.review}</p>
-              <div className="content">
-                <h4>{review.name}</h4>
-                <p>{review.age}</p>
-                <p>{review.occupation}</p>
-                <p>
-                  <span>⭐️⭐⭐⭐</span>
-                </p>
-                <p>{review.country}</p>
-              </div>
+      <div
+        className="card-container"
+        style={{ transform: getTransformStyle() }}
+      >
+        {reviews.map((review, index) => (
+          <div className="card" key={index}>
+            <p>{review.review}</p>
+            <div className="content">
+              <h4>{review.name}</h4>
+              <p>{review.age}</p>
+              <p>{review.occupation}</p>
+              <p>
+                {review.rating} stars <span>⭐️⭐</span>
+              </p>
+              <p>{review.country}</p>
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
+      </div>
 
-        <div className="dots">
-          {reviews.map((_, index) => (
+      <div className="dots">
+        {Array(totalSlides)
+          .fill(null)
+          .map((_, index) => (
             <div
               className="dot"
               key={index}
@@ -135,7 +157,6 @@ const Review = () => {
               onClick={() => setCurrentSlide(index)}
             ></div>
           ))}
-        </div>
       </div>
     </Wrapper>
   );
